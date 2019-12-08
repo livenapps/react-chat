@@ -1,0 +1,114 @@
+@import "mixins";
+@import "theme";
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.chat {
+  & {
+    @include color(text, secondary-alt);
+    @include color(background, secondary);
+
+    height: 100%;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    padding: 10px;
+    flex: 0 0 auto;
+  }
+
+  &__title {
+    color: white;
+    text-transform: uppercase;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0;
+    padding: 1em 0;
+  }
+
+  &__messages {
+    flex: 1 1 auto;
+    padding: 20px 10px 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__messages-wrapper {
+    overflow-y: scroll;
+    padding-right: 10px;
+    flex: 1 1 auto;
+  }
+
+  &__fieldset {
+    padding: 10px;
+    margin: 0;
+    border: 1px dotted map-get($colors, secondary-alt);
+  }
+
+  &__sidebar {
+    padding: 10px;
+  }
+
+  &__input-area {
+    padding: 50px 10px;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+  }
+
+  &__main-wrapper {
+    display: flex;
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+}
+
+.message {
+  flex-grow: 1;
+  margin-bottom: 10px;
+  border: 1px dotted map-get($colors, secondary-alt);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-content: baseline;
+    padding: 10px;
+  }
+
+  &__content {
+    padding: 10px;
+  }
+}
+
+.input-area {
+  width: 100%;
+
+  &__text-input {
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+  }
+
+  &__btn {
+    @include color(background, color4);
+    @include color(text, secondary-alt);
+
+    cursor: pointer;
+    padding: 5px 10px;
+    font-weight: 500;
+    font-size: 1em;
+    min-width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-top: 10px;
+    outline: none;
+    border: none;
+  }
+}

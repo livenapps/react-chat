@@ -1,0 +1,13 @@
+@import "theme";
+
+@mixin color($property, $color) {
+  $color: if(map-has-key($colors, $color), map-get($colors, $color), $color);
+
+  @if $property == text {
+    color: $color;
+  } @else if $property == background {
+    background-color: $color;
+  } @else if $property == border {
+    border-color: $color;
+  }
+}
