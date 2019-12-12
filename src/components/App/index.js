@@ -68,6 +68,8 @@ export default class App extends React.Component {
         this.setState({usersCount: message.data.usersCount});
       } else if (message.event === 'userLeft') {
         this.setState({usersCount: message.data.usersCount});
+      } else if (message.event === 'error') {
+        console.error(message.data.status, message.data.message, message.data.error);
       }
     });
   }
