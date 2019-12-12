@@ -17,6 +17,7 @@ export default class App extends React.Component {
     };
 
     this.socket = io(server.URL);
+    this.listRef = React.createRef();
 
     this.subscribeOnSocketEvents();
     this.onLeaveWindow();
@@ -53,18 +54,21 @@ export default class App extends React.Component {
     });
 
     this.socket.on('message', (message) => {
-      if (message.event === 'sent' || message.event === 'received') {
+      if (message.event === 'sent') {
+        this.setState({
+          userMessage: '',
+          messages: [...this.state.messages, message.data],
+        });
+      } else if (message.event === 'received') {
         this.setState({
           messages: [...this.state.messages, message.data],
         });
       } else if (message.event === 'connected') {
-        console.log('connected', message.data);
         this.setState({
           userId: message.data.userId,
           usersCount: message.data.usersCount,
         });
       } else if (message.event === 'userJoined') {
-        console.log('userJoined', message.data);
         this.setState({usersCount: message.data.usersCount});
       } else if (message.event === 'userLeft') {
         this.setState({usersCount: message.data.usersCount});
@@ -87,6 +91,23 @@ export default class App extends React.Component {
     window.addEventListener('beforeunload', ()=>{
       localStorage.setItem('userName', this.state.userName);
     });
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (snapshot !== null) {
+      const list = this.listRef.current;
+
+      list.scrollTop = list.scrollHeight - snapshot;
+    }
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if (this.state.messages.length > prevState.messages.length) {
+      const list = this.listRef.current;
+
+      return list.scrollHeight - list.scrollTop;
+    }
+    return null;
   }
 
   render() {
@@ -113,7 +134,7 @@ export default class App extends React.Component {
           </fieldset>
         </aside>
         <section className="chat__messages">
-          <div className="chat__messages-wrapper">
+          <div className="chat__messages-wrapper" ref={this.listRef}>
             {this.state.messages.map((message, i) => {
               const date = new Date(message.date);
 
