@@ -1,5 +1,5 @@
 const server = {
-    URL: 'http://localhost:3000',
+    URL: 'https://ws-server-chat.herokuapp.com',
 };
 
 export {server};
